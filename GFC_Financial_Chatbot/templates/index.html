@@ -1,0 +1,177 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GFC Financial Insights Chatbot</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="app-container">
+
+        <header class="header">
+            <div>
+                <h1>GFC Financial Insights</h1>
+                <p>AI-powered financial performance assistant</p>
+            </div>
+            <div class="status">
+                <span class="status-dot"></span>
+                Online
+            </div>
+        </header>
+
+        <main class="chat-container">
+
+            <div class="welcome-card">
+                <h2>Financial Analysis Assistant</h2>
+                <p>
+                    Ask questions about the financial performance of
+                    Microsoft, Tesla, and Apple from 2023–2025.
+                </p>
+
+                <div class="suggestions">
+                    <button>What was Microsoft's revenue in 2025?</button>
+                    <button>What was Tesla's net income in 2024?</button>
+                    <button>Compare Apple's revenue in 2024 and 2025.</button>
+                    <button>How did Microsoft's net income change?</button>
+                </div>
+            </div>
+
+            <div id="chat-messages" class="chat-messages">
+                <div class="message bot-message">
+                    <div class="message-label">GFC Assistant</div>
+                    <p>
+                        Hello! I can help you analyze financial information
+                        for Microsoft, Tesla, and Apple. What would you like
+                        to know?
+                    </p>
+                </div>
+            </div>
+
+            <div class="input-area">
+                <input
+                    type="text"
+                    id="user-input"
+                    placeholder="Ask a financial question..."
+                    autocomplete="off"
+                >
+                <button id="send-button">Send</button>
+            </div>
+
+            <p class="disclaimer">
+                Financial data covers 2023–2025 and is based on SEC 10-K filings.
+                This prototype is for analytical and educational purposes.
+            </p>
+
+        </main>
+
+    </div>
+
+</body><script>
+    const input = document.getElementById("user-input");
+    const sendButton = document.getElementById("send-button");
+    const chatMessages = document.getElementById("chat-messages");
+    const suggestionButtons = document.querySelectorAll(".suggestions button");
+
+
+    function addMessage(message, type) {
+        const messageDiv = document.createElement("div");
+        messageDiv.classList.add("message", type);
+
+        const label = document.createElement("div");
+        label.classList.add("message-label");
+        label.textContent = type === "user-message"
+            ? "You"
+            : "GFC Assistant";
+
+        const text = document.createElement("p");
+        text.textContent = message;
+
+        messageDiv.appendChild(label);
+        messageDiv.appendChild(text);
+
+        chatMessages.appendChild(messageDiv);
+
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+
+    async function sendMessage() {
+        const message = input.value.trim();
+
+        if (!message) {
+            return;
+        }
+
+        // Display user's message
+        addMessage(message, "user-message");
+
+        // Clear input
+        input.value = "";
+
+        // Disable button while processing
+        sendButton.disabled = true;
+        sendButton.textContent = "Sending...";
+
+        try {
+            const response = await fetch("/chat", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    message: message
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                addMessage(data.response, "bot-message");
+            } else {
+                addMessage(
+                    data.response || "Something went wrong.",
+                    "bot-message"
+                );
+            }
+
+        } catch (error) {
+            addMessage(
+                "I couldn't connect to the financial analysis service. Please try again.",
+                "bot-message"
+            );
+
+            console.error(error);
+        }
+
+        // Re-enable button
+        sendButton.disabled = false;
+        sendButton.textContent = "Send";
+
+        input.focus();
+    }
+
+
+    // Send button
+    sendButton.addEventListener("click", sendMessage);
+
+
+    // Press Enter to send
+    input.addEventListener("keydown", function(event) {
+        if (event.key === "Enter") {
+            sendMessage();
+        }
+    });
+
+
+    // Suggested questions
+    suggestionButtons.forEach(function(button) {
+        button.addEventListener("click", function() {
+            input.value = button.textContent;
+            sendMessage();
+        });
+    });
+</script>
+</html>

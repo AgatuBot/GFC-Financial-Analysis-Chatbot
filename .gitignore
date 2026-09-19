@@ -1,0 +1,16 @@
+﻿__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+venv/
+env/
+.env
+*.log
+.DS_Store
+Thumbs.db
+
+# Local backup snapshots
+GFC_Financial_Chatbot_Backup/
+GFC_Financial_Chatbot_PreUpgrade/
+GFC_Financial_Chatbot_Restore/
+GFC_Financial_Chatbot.zip
