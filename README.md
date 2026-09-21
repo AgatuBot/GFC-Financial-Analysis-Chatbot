@@ -2,6 +2,25 @@
 
 A rule-based financial analysis chatbot prototype developed as part of the BCG GenAI Consulting job simulation.
 
+## 🚀 Live Demo
+
+**Try the GFC Financial Analysis Chatbot:**  
+https://gfc-financial-analysis-chatbot.onrender.com/
+
+The application is deployed on Render and is available for demonstration and authorized security testing.
+
+**Example query:**
+
+```text
+What was Microsoft's revenue in 2025?
+```
+
+## 🔐 Security Lab
+
+This repository also contains the **GFC Web Application Security & Ethical Hacking Lab**, documenting authorized penetration testing of the application using Burp Suite from Kali Linux or Parrot OS.
+
+See the full lab documentation in [`SECURITY-LAB/`](./SECURITY-LAB/).
+
 ## Project Overview
 
 This project demonstrates how structured financial data can be integrated into a conversational web application.
