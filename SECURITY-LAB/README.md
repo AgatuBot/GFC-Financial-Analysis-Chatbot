@@ -13,6 +13,13 @@ This lab documents an authorized, hands-on security assessment of the GFC Financ
 **Security platforms:** Kali Linux / Parrot OS  
 **Target:** The project's own deployed application
 
+## 🚀 Live Target
+
+**Authorized application under assessment:**  
+https://gfc-financial-analysis-chatbot.onrender.com/
+
+This URL is the project's deployed application and is the only web target authorized by this lab documentation.
+
 ## Objectives
 
 - Establish a professional penetration-testing methodology.
